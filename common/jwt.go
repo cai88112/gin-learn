@@ -19,8 +19,8 @@ var tokenKey = viper.GetString("token.secret")
 func GetToken(device model.Device) (string,error){
 		expireTime := time.Now().Add(7 * 24 * time.Hour)
 		claims := &Claim{
-			Name:device.Name,
-			Pwd:device.Pwd,
+			Name:device.Num,
+			Pwd:device.Num,
 			Num:device.Num,
 			StandardClaims:jwt.StandardClaims{
 				ExpiresAt:expireTime.Unix(),

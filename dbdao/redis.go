@@ -17,7 +17,7 @@ func Redis() {
 	})
 	pong, err := client.Ping(ctx).Result();
 	if err != nil {
-		fmt.Println("redis connect fail:", err)
+		panic("redis connect fail:"+err.Error())
 	} else {
 		fmt.Println("redis connect ping response:", pong)
 		global.Redis = client
