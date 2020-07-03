@@ -1,0 +1,26 @@
+[server]
+port = 8080
+
+[db]
+port = 3306
+host = "localhost"
+charset = "utf8"
+username = "root"
+pwd = "11111111"
+database = "jfs"
+drivername = "mysql"
+location = "Asia/Shanghai"
+
+[token]
+secret = "jiayouba~123$"
+
+[redis]
+addr = "127.0.0.1:6379"
+pwd = "111111"
+
+
+[log]
+path = "/Users/CAI/mygo/src/github.com/ginLearn/log/"
+maxAge = 168
+rotatTime = 24
+level = "debug"
