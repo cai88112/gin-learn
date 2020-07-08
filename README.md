@@ -12,3 +12,9 @@
    > use file-rotatelogs and lsfshook implement rotate logs
    
    > every package can get new Logger to define it's own log name and path 
+
+#### UPDATE(2020-07-08)
+- Update to gorm v2
+- Restful api example 
+- Fix time location problem
+- Test router middleware 
