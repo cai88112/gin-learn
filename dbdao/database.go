@@ -3,23 +3,28 @@ package dbdao
 import (
 	"fmt"
 	"ginLearn/global"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"log"
 	"net/url"
+	"os"
+	"time"
 )
 
 
 func InitDb() *gorm.DB {
 	viper := global.Vp
-	drivername := viper.GetString("db.drivername")
+	//drivername := viper.GetString("db.drivername")
 	host := viper.GetString("db.host")
 	username := viper.GetString("db.username")
 	pwd := viper.GetString("db.pwd")
 	database := viper.GetString("db.database")
 	charset := viper.GetString("db.charset")
 	port := viper.GetString("db.port")
-	loc := viper.GetString("location")
-	args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
+	loc := viper.GetString("db.location")
+	//"gorm:gorm@tcp(localhost:9910)/gorm?charset=utf8&parseTime=True"
+	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
 		username,
 		pwd,
 		host,
@@ -27,9 +32,22 @@ func InitDb() *gorm.DB {
 		database,
 		charset,
 		url.QueryEscape(loc),
-	)
-
-	db, err := gorm.Open(drivername, args)
+		)
+	//args := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=%s&parseTime=True&loc=%s",
+	//	username,
+	//	pwd,
+	//	host,
+	//	port,
+	//	database,
+	//	charset,
+	//	url.QueryEscape(loc),
+	//)
+	var logger = logger.New(log.New(os.Stdout, "\r\n", log.LstdFlags), logger.Config{
+		SlowThreshold: 120 * time.Millisecond,
+		LogLevel:      logger.Info,
+		Colorful:      true,
+	})
+	db, err := gorm.Open(mysql.Open(args), &gorm.Config{Logger:logger})
 	if err != nil {
 		panic("failed to connect database:" + err.Error())
 	}
@@ -42,7 +60,7 @@ func InitDb() *gorm.DB {
 	//
 	//// SetConnMaxLifetime sets the maximum amount of time a connection may be reused.
 	//db.DB().SetConnMaxLifetime(time.Minute)
-	db.LogMode(true)
+
 	global.Db = db
 	return db
 }

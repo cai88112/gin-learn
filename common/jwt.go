@@ -40,6 +40,9 @@ func CheckToken(tokenString string) (bool, *Claim){
 	token,err := jwt.ParseWithClaims(tokenString,claims, func(token *jwt.Token) (i interface{}, e error) {
 		return []byte(tokenKey),nil
 	})
+	if err != nil{
+		return false,nil
+	}
 	if claims, ok := token.Claims.(*Claim); ok && token.Valid {
 		fmt.Printf("%v %v", claims.Num, claims.StandardClaims.ExpiresAt)
 		return true,claims

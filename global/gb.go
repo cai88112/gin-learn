@@ -2,8 +2,8 @@ package global
 
 import (
 	"github.com/go-redis/redis/v8"
-	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 )
 
 var(
